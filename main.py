@@ -98,26 +98,40 @@ if __name__ == '__main__':
         }
     print(flight_parameters)
 
-
 #%% Flight Geometry formulas
+def Ts(dic):
+    """
+    Temperature at altitude H
+    """
+    H = dic['H']
+    return Ts0 - (6.5e-6 * H)
 
+#%% Flight Geometry
+
+if __name__ == '__main__':
     _f_length = None # TO FILL --- Fuselage length
     _f_width = None # TO FILL --- Fuselage width
     _a_height = None # TO FILL --- Aircraft height
     _wingspan = None # TO FILL --- Wingspan
     _skew_angle = None # TO FILL --- Skew angle
     _passengers = None # TO FILL --- Number of passengers
-    _op_weight = None # TO FILL --- Operational weight
+    _op_weight = None # TO FILL --- Operating weight
     _MLW = None # TO FILL --- Maximum Landing Weight
 
 
 #%% Flight characteristics
 
+if __name__ == '__main__':
     _cruise_spd = None # TO FILL --- Cruise speed
     _max_cruise_spd = None # TO FILL --- Maximum cruise speed
     _range = None # TO FILL --- Range
     _fuel_capacity = None # TO FILL --- Fuel capacity
     _ceiling = None # TO FILL --- Service ceiling
+    _V1 = None # TO FILL --- Decision speed
+    _V2 = None # TO FILL ---  Take off speed
+    _VR = None # TO FILL --- Rotation speed
+    _V_stall = None # TO FILL --- Stall speed
+    _mu = None  # TO FILL --- Coefficient of friction (0.02 RWY, 0.1 grass)
     
 
 
