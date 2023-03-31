@@ -2,10 +2,9 @@
 from find_root import find_root
 from sympy import sqrt, sin, cos
 
-#%% Earth's parameters
+#%% Earth parameters
 Ts0 = 288.15#K
 Ps0 = 101325#Pa
-
 
 #%% Flight parameters formulas
 def Ps(dic):
@@ -100,12 +99,30 @@ if __name__ == '__main__':
     print(flight_parameters)
 
 
-
-
-
-
-
 #%% Flight Geometry formulas
+
+    _f_length = None # TO FILL --- Fuselage length
+    _f_width = None # TO FILL --- Fuselage width
+    _a_height = None # TO FILL --- Aircraft height
+    _wingspan = None # TO FILL --- Wingspan
+    _skew_angle = None # TO FILL --- Skew angle
+    _passengers = None # TO FILL --- Number of passengers
+    _op_weight = None # TO FILL --- Operational weight
+    _MLW = None # TO FILL --- Maximum Landing Weight
+
+
+#%% Flight characteristics
+
+    _cruise_spd = None # TO FILL --- Cruise speed
+    _max_cruise_spd = None # TO FILL --- Maximum cruise speed
+    _range = None # TO FILL --- Range
+    _fuel_capacity = None # TO FILL --- Fuel capacity
+    _ceiling = None # TO FILL --- Service ceiling
+    
+
+
+
+
 
 
 
