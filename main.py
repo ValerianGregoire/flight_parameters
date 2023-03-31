@@ -1,5 +1,6 @@
+#%% Imports
 from find_root import find_root
-from sympy import sqrt
+from sympy import sqrt, sin, cos
 
 #%% Earth's parameters
 Ts0 = 288.15#K
@@ -46,7 +47,7 @@ def F(dic):
 
 def Cs(dic):
     """
-    Specific fuel consumption from altitude H, local mach number M0
+    Specific fuel consumption variation from altitude H, local mach number M0
     Requires Ts to have already been computed
     """
     H,M0,Cs0,Ts = dic['H'],dic['M0'],dic['Cs0'],dic['Ts']
@@ -66,8 +67,8 @@ if __name__ == '__main__':
     _M_fuel = None # TO FILL --- Maximum fuel quantity
     _M0 = None # TO FILL --- Local mach number
     _F = None # TO FILL --- Thrust variation
-    _Cs0 = None # TO FILL --- Basic fuel consumption
-    _Cs = None # TO FILL --- Thrust specific fuel consumption
+    _Cs0 = None # TO FILL --- Thrust specific fuel consumption
+    _Cs = None # TO FILL --- Thrust specific fuel consumption variation
     
     
     # Comment-out the parameters that already have a value
@@ -83,7 +84,7 @@ if __name__ == '__main__':
     _Cs = find_root(Cs, _Cs, **{'H' : _H, 'M0': _M0, 'Cs0': _Cs0, 'Ts': _Ts})
     
     
-    
+    # Print of the result
     flight_parameters = {
         'H':_H,
         'Ps':_Ps,
@@ -100,6 +101,11 @@ if __name__ == '__main__':
 
 
 
+
+
+
+
+#%% Flight Geometry formulas
 
 
 
