@@ -62,53 +62,6 @@ def Cs(dic):
     return Cs0 * sqrt(Ts/Ts0) * (1+M0)
 
 
-
-#%% Flight Parameters
-
-if __name__ == '__main__':
-    # Fill with all the available parameters
-    _H = None # TO FILL --- Altitude
-    _Ps = None # TO FILL --- Static pressure at current FL
-    _Ts = None # TO FILL --- Temperature at current FL
-    _rho = None # TO FILL --- Air density at current conditions
-    _MTOW = None # TO FILL --- Max take-off weight
-    _F0 = None # TO FILL --- Maximum thrust
-    _M_fuel = None # TO FILL --- Maximum fuel quantity
-    _M0 = None # TO FILL --- Local mach number
-    _F = None # TO FILL --- Thrust variation
-    _Cs0 = None # TO FILL --- Thrust specific fuel consumption
-    _Cs = None # TO FILL --- Thrust specific fuel consumption variation
-    
-    
-    # Comment-out the parameters that already have a value
-    _H = find_root(Ps, _Ps, **{'H' : _H})
-    _Ps = find_root(Ps, _Ps, **{'H' : _H})
-    _Ts = find_root(Ts, _Ts, **{'H' : _H})
-    _rho = find_root(rho, _rho, **{'Ps' : _Ps, 'Ts':_Ts})
-    _MTOW = find_root(F0, _F0, **{'MTOW' : _MTOW})
-    _F0 = find_root(F0, _F0, **{'MTOW' : _MTOW})
-    _M_fuel = find_root(M_fuel, _M_fuel, **{'MTOW' : _MTOW})
-    _M0 = find_root(F, _F, **{'H' : _H, 'M0': _M0, 'Ps': _Ps, 'F0': _F0})
-    _F = find_root(F, _F, **{'H' : _H, 'M0': _M0, 'Ps': _Ps, 'F0': _F0})
-    _Cs0 = find_root(Cs, _Cs, **{'H' : _H, 'M0': _M0, 'Cs0': _Cs0, 'Ts': _Ts})
-    _Cs = find_root(Cs, _Cs, **{'H' : _H, 'M0': _M0, 'Cs0': _Cs0, 'Ts': _Ts})
-    
-    
-    # Print of the result
-    flight_parameters = {
-        'H':_H,
-        'Ps':_Ps,
-        'Ts':_Ts,
-        'MTOW':_MTOW,
-        'F0':_F0,
-        'M_fuel':_M_fuel,
-        'M0':_M0,
-        'F':_F,
-        'Cs0':_Cs0,
-        'Cs':_Cs
-        }
-    print("Flight parameters:\n",flight_parameters)
-
 #%% Flight Geometry & Flight Characteristics formulas
 def OP_weight(dic):
     """
@@ -140,96 +93,145 @@ def V2(dic):
     V_stall = dic['V_stall']
     return 1.2 * V_stall
 
-#%% Flight Geometry & Flight Characteristics
+#%% Sections to run
+flight_parameters = True
+flight_characteristics = False # WIP
 
+#%% Main
 if __name__ == '__main__':
-    _f_length = None # TO FILL --- Fuselage length
-    _f_width = None # TO FILL --- Fuselage width
-    _a_height = None # TO FILL --- Aircraft height
-    _wingspan = None # TO FILL --- Wingspan
-    _S = None # TO FILL --- Wing Surface
-    _skew_angle = None # TO FILL --- Skew angle
-    _passengers = None # TO FILL --- Number of passengers
-    _m = None # TO FILL --- Mass of the aircraft
-    _op_weight = None # TO FILL --- Operating weight
-    _MLW = None # TO FILL --- Maximum Landing Weight
-    _fuel_capacity = None # TO FILL --- Fuel capacity
-    _mu = None  # TO FILL --- Ground coef of friction (0.02 RWY, 0.1 grass)
-    _cruise_spd = None # TO FILL --- Cruise speed
-    _max_cruise_spd = None # TO FILL --- Maximum cruise speed
-    _V1 = None # TO FILL --- Decision speed
-    _V2 = None # TO FILL ---  Take off speed
-    _VR = None # TO FILL --- Rotation speed
-    _V_stall = None # TO FILL --- Stall speed
-    _TO_time = None # TO FILL --- Take off duration
-    _TO_dist = None # TO FILL --- Take off distance (approximated)
-    _range = None # TO FILL --- Range
-    _ceiling = None # TO FILL --- Service ceiling
     
-    
-    
-    # _f_length = find_root(Ps, _Ps, **{'H' : _H}) --- NO FORMULA YET
-    # _f_width = find_root(Ps, _Ps, **{'H' : _H}) --- NO FORMULA YET
-    # _a_height = find_root(Ps, _Ps, **{'H' : _H}) --- NO FORMULA YET
-    # _wingspan = find_root(Ps, _Ps, **{'H' : _H}) --- NO FORMULA YET
-    _S = find_root(Ps, _Ps, **{'H' : _H})
-    # _skew_angle = find_root(Ps, _Ps, **{'H' : _H}) --- NO FORMULA YET
-    # _passengers = find_root(Ps, _Ps, **{'H' : _H}) --- NO FORMULA YET
-    _m = find_root(Ps, _Ps, **{'H' : _H})
-    _op_weight = find_root(Ps, _Ps, **{'H' : _H})
-    # _MLW = find_root(Ps, _Ps, **{'H' : _H}) --- NO FORMULA YET
-    # _fuel_capacity = find_root(Ps, _Ps, **{'H' : _H}) --- NO FORMULA YET
-    _mu = find_root(Ps, _Ps, **{'H' : _H})
-    # _cruise_spd = find_root(Ps, _Ps, **{'H' : _H}) --- NO FORMULA YET
-    # _max_cruise_spd = find_root(Ps, _Ps, **{'H' : _H}) --- NO FORMULA YET
-    # _V1 = find_root(Ps, _Ps, **{'H' : _H}) --- NO FORMULA YET
-    _V2 = find_root(Ps, _Ps, **{'H' : _H})
-    # _VR = find_root(Ps, _Ps, **{'H' : _H}) --- NO FORMULA YET
-    _V_stall = find_root(Ps, _Ps, **{'H' : _H})
-    _TO_time = find_root(Ps, _Ps, **{'H' : _H})
-    _TO_dist = find_root(Ps, _Ps, **{'H' : _H})
-    # _range = find_root(Ps, _Ps, **{'H' : _H}) --- NO FORMULA YET
-    # _ceiling = find_root(Ps, _Ps, **{'H' : _H}) --- NO FORMULA YET
-    
-    
-    
-    flight_characteristics = {
-        'f_length':_f_length,
-        'f_width':_f_width,
-        'a_height':_a_height, 
-        'wingspan':_wingspan,
-        'S':_S,
-        'skew_angle':_skew_angle,
-        'passengers':_passengers,
-        'm':_m,
-        'op_weight':_op_weight,
-        'MLW':_MLW,
-        'fuel_capacity':_fuel_capacity,
-        'mu':_mu,
+    if flight_parameters or flight_characteristics:
+        # Fill with all the available parameters
+        _H = None # TO FILL --- Altitude
+        _Ps = None # TO FILL --- Static pressure at current FL
+        _Ts = None # TO FILL --- Temperature at current FL
+        _rho = None # TO FILL --- Air density at current conditions
+        _MTOW = None # TO FILL --- Max take-off weight
+        _F0 = None # TO FILL --- Maximum thrust
+        _M_fuel = None # TO FILL --- Maximum fuel quantity
+        _M0 = None # TO FILL --- Local mach number
+        _F = None # TO FILL --- Thrust variation
+        _Cs0 = None # TO FILL --- Thrust specific fuel consumption
+        _Cs = None # TO FILL --- Thrust specific fuel consumption variation
         
-        'cruise_spd':_cruise_spd,
-        'max_cruise_spd':_max_cruise_spd,
-        'V1':_V1,
-        'V2':_V2,
-        'VR':_VR,
-        'V_stall':_V_stall,
-        'TO_time':_TO_time,
-        'TO_dist':_TO_dist,
-        'range':_range,
-        'ceiling':_ceiling,
-        }
+        
+        # Comment-out the parameters that don't need to be computed
+        _H = find_root(Ps, _Ps, **{'H' : _H})
+        _Ps = find_root(Ps, _Ps, **{'H' : _H})
+        _Ts = find_root(Ts, _Ts, **{'H' : _H})
+        _rho = find_root(rho, _rho, **{'Ps' : _Ps, 'Ts':_Ts})
+        _MTOW = find_root(F0, _F0, **{'MTOW' : _MTOW})
+        _F0 = find_root(F0, _F0, **{'MTOW' : _MTOW})
+        _M_fuel = find_root(M_fuel, _M_fuel, **{'MTOW' : _MTOW})
+        _M0 = find_root(F, _F, **{'H' : _H, 'M0': _M0, 'Ps': _Ps, 'F0': _F0})
+        _F = find_root(F, _F, **{'H' : _H, 'M0': _M0, 'Ps': _Ps, 'F0': _F0})
+        _Cs0 = find_root(Cs, _Cs, **{'H' : _H, 'M0': _M0,
+                                     'Cs0': _Cs0, 'Ts': _Ts})
+        _Cs = find_root(Cs, _Cs, **{'H' : _H, 'M0': _M0,
+                                    'Cs0': _Cs0, 'Ts': _Ts})
+        
+        
+        # Print of the result
+        flight_parameters = {
+            'H':_H,
+            'Ps':_Ps,
+            'Ts':_Ts,
+            'MTOW':_MTOW,
+            'F0':_F0,
+            'M_fuel':_M_fuel,
+            'M0':_M0,
+            'F':_F,
+            'Cs0':_Cs0,
+            'Cs':_Cs
+            }
+        print(f"Flight parameters:\n{flight_parameters}")
 
-    print("Flight characteristics:\n",flight_characteristics)
 
-
-
-
-
-
-
-
-
-
-
-
+    if flight_characteristics:
+        # Fill with all the available parameters
+        _f_length = None # TO FILL --- Fuselage length
+        _f_width = None # TO FILL --- Fuselage width
+        _a_height = None # TO FILL --- Aircraft height
+        _wingspan = None # TO FILL --- Wingspan
+        _S = None # TO FILL --- Wing Surface
+        _skew_angle = None # TO FILL --- Skew angle
+        _Cz_max = None # TO FILL --- Max lift coefficient
+        _passengers = None # TO FILL --- Number of passengers
+        _m = None # TO FILL --- Mass of the aircraft
+        _op_weight = None # TO FILL --- Operating weight
+        _MLW = None # TO FILL --- Maximum Landing Weight
+        _fuel_capacity = None # TO FILL --- Fuel capacity
+        _mu = None  # TO FILL --- Ground coef of friction (0.02 RWY, 0.1 grass)
+        _cruise_spd = None # TO FILL --- Cruise speed
+        _max_cruise_spd = None # TO FILL --- Maximum cruise speed
+        _V1 = None # TO FILL --- Decision speed
+        _V2 = None # TO FILL ---  Take off speed
+        _VR = None # TO FILL --- Rotation speed
+        _V_stall = None # TO FILL --- Stall speed
+        _TO_time = None # TO FILL --- Take off duration
+        _TO_dist = None # TO FILL --- Take off distance (approximated)
+        _range = None # TO FILL --- Range
+        _ceiling = None # TO FILL --- Service ceiling
+        
+        
+        # Comment-out the parameters that don't need to be computed
+        # _f_length = find_root() --- NO FORMULA YET
+        # _f_width = find_root() --- NO FORMULA YET
+        # _a_height = find_root() --- NO FORMULA YET
+        # _wingspan = find_root() --- NO FORMULA YET
+        _S = find_root(V_stall, _V_stall, **{'m' : _m,'rho' : _rho,
+                                                   'S' : _S,'Cz_max' :_Cz_max})
+        # _skew_angle = find_root() --- NO FORMULA YET
+        _Cz_max = find_root(V_stall, _V_stall, **{'m' : _m,'rho' : _rho,
+                                                   'S' : _S,'Cz_max' :_Cz_max})
+        # _passengers = find_root() --- NO FORMULA YET
+        _m = find_root(OP_weight, _op_weight, **{'m' : _m})
+        _op_weight = find_root(OP_weight, _op_weight, **{'m' : _m})
+        # _MLW = find_root() --- NO FORMULA YET
+        # _fuel_capacity = find_root() --- NO FORMULA YET
+        _mu = find_root(TO_dist, _TO_dist, **{'m' : _m,'F' : _F,
+                                              'mu' : _mu,'TO_time' : _TO_time})
+        # _cruise_spd = find_root() --- NO FORMULA YET
+        # _max_cruise_spd = find_root() --- NO FORMULA YET
+        # _V1 = find_root() --- NO FORMULA YET
+        _V2 = find_root(V2, _V2, **{'_V_stall' : V_stall})
+        # _VR = find_root() --- NO FORMULA YET
+        _V_stall = find_root(V_stall, _V_stall, **{'m' : _m,'rho' : _rho,
+                                                   'S' : _S,'Cz_max' :_Cz_max})
+        _TO_time = find_root(TO_dist, _TO_dist, **{'m' : _m,'F' : _F,
+                                              'mu' : _mu,'TO_time' : _TO_time})
+        _TO_dist = find_root(TO_dist, _TO_dist, **{'m' : _m,'F' : _F,
+                                              'mu' : _mu,'TO_time' : _TO_time})
+        # _range = find_root() --- NO FORMULA YET
+        # _ceiling = find_root() --- NO FORMULA YET
+        
+        
+        
+        flight_characteristics = {
+            'f_length':_f_length,
+            'f_width':_f_width,
+            'a_height':_a_height, 
+            'wingspan':_wingspan,
+            'S':_S,
+            'skew_angle':_skew_angle,
+            'passengers':_passengers,
+            'm':_m,
+            'op_weight':_op_weight,
+            'MLW':_MLW,
+            'fuel_capacity':_fuel_capacity,
+            'mu':_mu,
+            
+            'cruise_spd':_cruise_spd,
+            'max_cruise_spd':_max_cruise_spd,
+            'V1':_V1,
+            'V2':_V2,
+            'VR':_VR,
+            'V_stall':_V_stall,
+            'TO_time':_TO_time,
+            'TO_dist':_TO_dist,
+            'range':_range,
+            'ceiling':_ceiling,
+            }
+    
+        print(f"Flight characteristics:\n{flight_characteristics}")
 
