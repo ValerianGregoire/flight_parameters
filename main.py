@@ -70,6 +70,13 @@ def OP_weight(dic):
     m = dic['m']
     return m*g
 
+def Cx_max(dic):
+    """
+    Drag coefficient from Cz
+    """
+    Cz_max = dic['Cz_max']
+    return 0.0295 + 0.035*Cz_max**2
+
 def V_stall(dic):
     """
     Stall speed from mass m, air density rho, wing surface S and max lift coef
@@ -86,6 +93,20 @@ def TO_dist(dic):
     m,F,mu,TO_time = dic['m'],dic['F'],dic['mu'],dic['TO_time']
     return (F / m - mu * g)* TO_time**2/2
 
+def V1(dic):
+    """
+    Decision speed from stall speed V_stall.
+    """
+    V_stall = dic['V_stall']
+    return 1.05 * V_stall
+
+def VR(dic):
+    """
+    Rotation speed from stall speed V_stall.
+    """
+    V_stall = dic['V_stall']
+    return 1.1 * V_stall
+
 def V2(dic):
     """
     Take off speed from stall speed V_stall.
@@ -95,7 +116,7 @@ def V2(dic):
 
 #%% Sections to run
 flight_parameters = True
-flight_characteristics = False # WIP
+flight_characteristics = True # WIP
 
 #%% Main
 if __name__ == '__main__':
@@ -126,7 +147,7 @@ if __name__ == '__main__':
         _M0 = find_root(F, _F, **{'H' : _H, 'M0': _M0, 'Ps': _Ps, 'F0': _F0})
         _F = find_root(F, _F, **{'H' : _H, 'M0': _M0, 'Ps': _Ps, 'F0': _F0})
         _Cs0 = find_root(Cs, _Cs, **{'H' : _H, 'M0': _M0,
-                                     'Cs0': _Cs0, 'Ts': _Ts})
+                                      'Cs0': _Cs0, 'Ts': _Ts})
         _Cs = find_root(Cs, _Cs, **{'H' : _H, 'M0': _M0,
                                     'Cs0': _Cs0, 'Ts': _Ts})
         
@@ -156,6 +177,7 @@ if __name__ == '__main__':
         _S = None # TO FILL --- Wing Surface
         _skew_angle = None # TO FILL --- Skew angle
         _Cz_max = None # TO FILL --- Max lift coefficient
+        _Cx_max = None # TO FILL --- Max drag coefficient
         _passengers = None # TO FILL --- Number of passengers
         _m = None # TO FILL --- Mass of the aircraft
         _op_weight = None # TO FILL --- Operating weight
@@ -180,10 +202,11 @@ if __name__ == '__main__':
         # _a_height = find_root() --- NO FORMULA YET
         # _wingspan = find_root() --- NO FORMULA YET
         _S = find_root(V_stall, _V_stall, **{'m' : _m,'rho' : _rho,
-                                                   'S' : _S,'Cz_max' :_Cz_max})
+                                                  'S' : _S,'Cz_max' :_Cz_max})
         # _skew_angle = find_root() --- NO FORMULA YET
         _Cz_max = find_root(V_stall, _V_stall, **{'m' : _m,'rho' : _rho,
-                                                   'S' : _S,'Cz_max' :_Cz_max})
+                                                  'S' : _S,'Cz_max' :_Cz_max})
+        _Cx_max = find_root(Cx_max, _Cx_max, **{'Cz_max':_Cz_max})
         # _passengers = find_root() --- NO FORMULA YET
         _m = find_root(OP_weight, _op_weight, **{'m' : _m})
         _op_weight = find_root(OP_weight, _op_weight, **{'m' : _m})
@@ -193,11 +216,11 @@ if __name__ == '__main__':
                                               'mu' : _mu,'TO_time' : _TO_time})
         # _cruise_spd = find_root() --- NO FORMULA YET
         # _max_cruise_spd = find_root() --- NO FORMULA YET
-        # _V1 = find_root() --- NO FORMULA YET
-        _V2 = find_root(V2, _V2, **{'_V_stall' : V_stall})
-        # _VR = find_root() --- NO FORMULA YET
         _V_stall = find_root(V_stall, _V_stall, **{'m' : _m,'rho' : _rho,
                                                    'S' : _S,'Cz_max' :_Cz_max})
+        _V1 = find_root(V1, _V1, **{'V_stall' : _V_stall})
+        _V2 = find_root(V2, _V2, **{'V_stall' : _V_stall})
+        _VR = find_root(VR, _VR, **{'V_stall' : _V_stall})
         _TO_time = find_root(TO_dist, _TO_dist, **{'m' : _m,'F' : _F,
                                               'mu' : _mu,'TO_time' : _TO_time})
         _TO_dist = find_root(TO_dist, _TO_dist, **{'m' : _m,'F' : _F,
@@ -214,6 +237,8 @@ if __name__ == '__main__':
             'wingspan':_wingspan,
             'S':_S,
             'skew_angle':_skew_angle,
+            'max lift coef':_Cz_max,
+            'drag coef':_Cx_max,
             'passengers':_passengers,
             'm':_m,
             'op_weight':_op_weight,
